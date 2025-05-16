@@ -88,7 +88,9 @@ public class Example {
 
   private static void verifyBucketCopies(ClientCache cache) {
     ResultCollector<String, List<String>> collector =
-        FunctionService.onServer(cache.getDefaultPool()).execute(VerifyBucketCopiesFunction.ID);
+        FunctionService.onServer(cache.getDefaultPool())
+            .withArgs(new String[] {"example-region"})
+            .execute(VerifyBucketCopiesFunction.ID);
     List<String> results = collector.getResult();
 
     if (!results.stream().allMatch("done"::equals)) {

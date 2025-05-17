@@ -24,6 +24,20 @@ import org.apache.geode.cache.execute.Function;
 import org.apache.geode.cache.execute.FunctionContext;
 import org.apache.geode.cache.execute.RegionFunctionContext;
 
+/**
+ * Function that searches any entries older than a certain age. If it finds one, it
+ * will check to see if that entry exists in the primary. If the primary does not
+ * contain the entry, the key will be returned from the function.
+ * <p/>
+ * This function can be invoked through gfsh. The first parameter is the region
+ * name to examine. The second parameter the age in minutes of the entries. Only
+ * entries with a last modified older than this age will be considered.
+ * <p/>
+ * Example of finding entries older than 1 hour and checking them.
+ * {code}
+ * execute function --id=FindOldEntriesFunction --arguments=example-region,60
+ * {code}
+ */
 public class FindAndUpdateEntriesFunction implements Function {
   public static final String ID = FindAndUpdateEntriesFunction.class.getSimpleName();
 

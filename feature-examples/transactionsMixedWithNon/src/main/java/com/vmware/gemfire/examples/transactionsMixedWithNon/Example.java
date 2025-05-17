@@ -38,7 +38,6 @@ import org.apache.geode.cache.execute.ResultCollector;
 public class Example {
   private static final long TEST_DURATION_SECONDS = 60;
   private static final int BATCH_SIZE = 100;
-  private int maximum;
 
   public static void main(String[] args) throws ExecutionException, InterruptedException {
     // connect to the locator using default port 10334
@@ -53,7 +52,7 @@ public class Example {
     int count = 0;
     while (System.nanoTime() - start < TimeUnit.SECONDS.toNanos(TEST_DURATION_SECONDS)) {
       CompletableFuture<Void> asyncUpdate =
-          CompletableFuture.runAsync(() -> updateWithFunction(region, clientCache));
+          CompletableFuture.runAsync(() -> updateWithFunction(region));
       CompletableFuture<Void> putAll =
           CompletableFuture.runAsync(() -> doPutAllInTransaction(clientCache, region));
       putAll.get();
@@ -67,8 +66,7 @@ public class Example {
 
   }
 
-  private static void updateWithFunction(Region<String, String> region,
-      ClientCache clientCache) {
+  private static void updateWithFunction(Region<String, String> region) {
     ResultCollector<HashSet<String>, List<HashSet<String>>> collector =
         FunctionService.onRegion(region).execute(FindAndUpdateEntriesFunction.ID);
 

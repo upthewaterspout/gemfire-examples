@@ -25,6 +25,11 @@ import org.apache.geode.cache.execute.FunctionContext;
 import org.apache.geode.cache.execute.RegionFunctionContext;
 import org.apache.geode.cache.partition.PartitionRegionHelper;
 
+/**
+ * Internal function used by {@link FindOldEntriesFunction}. This
+ * returns true if the entry passed in as it's filter exists
+ * on this member.
+ */
 public class ContainsKeyOnPrimaryFunction implements Function {
   public static final String ID = ContainsKeyOnPrimaryFunction.class.getSimpleName();
   private static final int LIMIT = 1000;
